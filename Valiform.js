@@ -4,7 +4,7 @@ REQUIRED
 */
 
 //This will print in console all the debug messages
-var debug = true;
+var debug = false;
 
 //This will override the html5 browser validation. If false, this validation will be activated after the default browser validation
 var override_html5_validation = false;
@@ -21,6 +21,29 @@ if(typeof jQuery == "undefined" ){
 	log_valiform("jQuery loaded!")
 	init_valiform_messages();
 	init_valiform_rules();
+
+
+	//Get the script tag of Valiform.js to get his attributes
+	var script_tag = $("script[src~='Valiform.js']");
+	
+	//Check for debug tag in the script src
+	if(script_tag.attr("debug")!==undefined){
+		if(script_tag.attr("debug")=="true"){
+			debug = true;
+		}else{
+			debug = false;
+		}
+		log_valiform("Found the attribute debug and it will be used to set the variable!");
+	}
+	//Check for overrite_html5_validation tag in the script src
+	if(script_tag.attr("override_html5_validation")!==undefined){
+		if(script_tag.attr("override_html5_validation")=="true"){
+			override_html5_validation = true;
+		}else{
+			override_html5_validation = false;
+		}
+		log_valiform("Found the attribute override_html5_validation and it will be used to set the variable!");
+	}
 	
 	$(document).ready(function(){
 		
