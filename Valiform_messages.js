@@ -7,6 +7,8 @@ var main_language = "it";
 
 //This will check if you have set a "language" parameter in the script src tag and use the language you've choose
 
+console.log("[Valiform] Found Valiform_messages.js, checking...");
+
 $(document).ready(function(){
 	
 	var script_messages_tag = $("script[src*='Valiform_messages.js']");
