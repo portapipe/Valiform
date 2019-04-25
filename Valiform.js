@@ -51,7 +51,7 @@ if(typeof jQuery == "undefined" ){
 			log_valiform("HTML5 validation override found! Adding novalidate attribute to every form.");
 
 			$(document).find("form").each(function(){
-				if($(this).attr("novalidate")===undefined){
+				if($(this).attr("novalidate")===undefined && $(this).attr("novaliform")===undefined){
 					$(this).attr("novalidate","novalidate");
 				}
 			})
@@ -80,6 +80,8 @@ function valiform(form){
 function form_validation_valiform(form){
 	
 	var valid = false;
+	
+	if($(form).attr("novaliform")!==undefined) return true;
 	
 	$(form).find(':input').each(function(){
 		field = $(this);
