@@ -3,7 +3,7 @@ Validate any form automagically with native HTML5 tags and properties
 
 
 ## Code inclusion
-```
+```html
 <script
     src="Valiform.js"
     charset="utf-8"
