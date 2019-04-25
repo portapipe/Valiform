@@ -1,12 +1,14 @@
 /*
 REQUIRED
 • JQUERY
-
-OPTIONAL
-• BOOTSTRAP
 */
 
+//This will print in console all the debug messages
 var debug = true;
+
+//This will override the html5 browser validation. If false, this validation will be activated after the default browser validation
+var override_html5_validation = false;
+
 function log_valiform(text){ if(debug) console.log("[Valiform] "+text);	}
 
 var field, fieldval;
@@ -19,6 +21,20 @@ if(typeof jQuery == "undefined" ){
 	log_valiform("jQuery loaded!")
 	init_valiform_messages();
 	init_valiform_rules();
+	
+	$(document).ready(function(){
+		
+		if(override_html5_validation){
+			log_valiform("HTML5 validation override found! Adding novalidate attribute to every form.");
+
+			$(document).find("form").each(function(){
+				if($(this).attr("novalidate")===undefined){
+					$(this).attr("novalidate","novalidate");
+				}
+			})
+		}
+		
+	})
 	
 	$(document).on("submit","form",function(form){
 		log_valiform("Form submitted by submitting a form.")
@@ -184,8 +200,6 @@ function init_valiform_messages(){
 	integer_not_valid = "The value is not a valid integer";
 	
 	log_valiform("Messages initialized");
-	
-	
 }
 
 //REGEX Rules to validate some fields. If you have some enhancement to submit just create a pull request: this will help everyone!
