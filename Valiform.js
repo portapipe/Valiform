@@ -252,15 +252,19 @@ function hide_popover_valiform(popover_id,field){
 //Initialize all the messages. Change them if you want to localize it
 function init_valiform_messages(){
 	
-	generic_error = "Field not valid";
-	field_required = "This field is required";
-	min_length = "The field does not meet the minimum required length of {optional_value}";
-	max_length = "The field exceedes the maxium allowed length of {optional_value}";
-	email_not_valid = "Email is not valid";
-	number_not_valid = "The value is not a valid number";
-	integer_not_valid = "The value is not a valid integer";
-	
-	log_valiform("Messages initialized");
+	if(typeof(generic_error) === undefined){
+		generic_error = "Field not valid";
+		field_required = "This field is required";
+		min_length = "The field does not meet the minimum required length of {optional_value}";
+		max_length = "The field exceedes the maxium allowed length of {optional_value}";
+		email_not_valid = "Email is not valid";
+		number_not_valid = "The value is not a valid number";
+		integer_not_valid = "The value is not a valid integer";
+		
+		log_valiform("Messages initialized");
+	}else{
+		log_valiform("Messages already initialized from another file");
+	}
 }
 
 //REGEX Rules to validate some fields. If you have some enhancement to submit just create a pull request: this will help everyone!
