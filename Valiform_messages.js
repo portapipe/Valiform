@@ -1,7 +1,21 @@
 //Insert here every translation you need to change
 //ATTENTION! THIS MESSAGES ARE INCLUDED IN THE MAIN Valiform.js FILE SO THIS FILE IS OPTIONAL IF YOU DON'T NEED TO CHANGE THE TEXTS!
 
+
+
 var main_language = "it";
+
+//This will check if you have set a "language" parameter in the script src tag and use the language you've choose
+var script_messages_tag = $("script[src*='Valiform_messages.js']");
+
+log_valiform("Additional Valiform_messages.js found and loaded");
+
+$(document).ready(function(){
+	if(script_messages_tag.attr("lang")!==undefined){
+		main_language = script_messages_tag.attr("lang");
+		log_valiform("Tag Lang for messages.js found! Loading language '"+main_language+"'")
+	}
+})
 
 
 if(main_language == "it"){
