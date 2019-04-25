@@ -9,7 +9,7 @@ var main_language = "it";
 
 console.log("[Valiform] Found Valiform_messages.js, checking...");
 
-$(document).ready(function(){
+document.addEventListener('DOMContentLoaded', function(){ 
 	
 	var script_messages_tag = $("script[src*='Valiform_messages.js']");
 	
