@@ -14,59 +14,81 @@ function log_valiform(text){ if(debug) console.log("[Valiform] "+text);	}
 var field, fieldval;
 
 
-if(typeof jQuery == "undefined" ){
-	console.log("[Valiform] jQuery not installed!");
-}else{
-	
-	log_valiform("jQuery loaded!")
-	init_valiform_messages();
-	init_valiform_rules();
-
-
-	//Get the script tag of Valiform.js to get his attributes
-	var script_tag = $("script[src*='Valiform.js']");
-	
-	//Check for debug tag in the script src
-	if(script_tag.attr("debug")!==undefined){
-		if(script_tag.attr("debug")=="true"){
-			debug = true;
-		}else{
-			debug = false;
-		}
-		log_valiform("Found the attribute debug and it will be used to set the variable!");
-	}
-	//Check for overrite_html5_validation tag in the script src
-	if(script_tag.attr("override_html5_validation")!==undefined){
-		if(script_tag.attr("override_html5_validation")=="true"){
-			override_html5_validation = true;
-		}else{
-			override_html5_validation = false;
-		}
-		log_valiform("Found the attribute override_html5_validation and it will be used to set the variable!");
-	}
-	
-	$(document).ready(function(){
+document.addEventListener('DOMContentLoaded', function(){ 
+	if(typeof jQuery == "undefined" ){
+		console.log("[Valiform] jQuery not installed!");
+	}else{
 		
-		if(override_html5_validation){
-			log_valiform("HTML5 validation override found! Adding novalidate attribute to every form.");
-
-			$(document).find("form").each(function(){
-				if($(this).attr("novalidate")===undefined && $(this).attr("novaliform")===undefined){
-					$(this).attr("novalidate","novalidate");
-				}
-			})
+		init_valiform_messages();
+		init_valiform_rules();
+	
+			
+			
+		//Get the script tag of Valiform.js to get his attributes
+		var script_tag = $("script[src*='Valiform.js']");
+		
+		//Check for debug tag in the script src
+		if(script_tag.attr("debug")!==undefined){
+			if(script_tag.attr("debug")=="true"){
+				debug = true;
+			}else{
+				debug = false;
+			}
+			log_valiform("Found the attribute debug and it will be used to set the variable!");
+		}
+		//Check for overrite_html5_validation tag in the script src
+		if(script_tag.attr("override_html5_validation")!==undefined){
+			if(script_tag.attr("override_html5_validation")=="true"){
+				override_html5_validation = true;
+			}else{
+				override_html5_validation = false;
+			}
+			log_valiform("Found the attribute override_html5_validation and it will be used to set the variable!");
 		}
 		
-	})
+		
+		log_valiform("jQuery loaded!")
+		
+		
+		//Check if bootstrap is loaded
+		if(typeof($.fn.popover) != 'undefined'){
+			log_valiform("Bootstrap is loaded: I'm going to use it for the error popups!");
+			$("body").append("<style>\
+			.popover{\
+				background-color: red;\
+			}\
+			.popover-body{\
+				color: white;\
+			}\
+			.popover > .arrow::after{\
+				border-bottom-color: red;\
+			}\
+			</style>");
+		}
+		
+		$(document).ready(function(){
+			
+			if(override_html5_validation){
+				log_valiform("HTML5 validation override found! Adding novalidate attribute to every form.");
 	
-	$(document).on("submit","form",function(form){
-		log_valiform("Form submitted by submitting a form.")
-		if(clear_errors_valiform())
-			return form_validation_valiform(this);
-	})
-	
-	
-}
+				$(document).find("form").each(function(){
+					if($(this).attr("novalidate")===undefined && $(this).attr("novaliform")===undefined){
+						$(this).attr("novalidate","novalidate");
+					}
+				})
+			}
+			
+		})
+		
+		$(document).on("submit","form",function(form){
+			log_valiform("Form submitted by submitting a form.")
+			if(clear_errors_valiform())
+				return form_validation_valiform(this);
+		})
+		
+		
+	}
+})
 
 //Call this function to validate the form without submitting it
 function valiform(form){
@@ -201,7 +223,13 @@ function error_valiform(field,error_type,optional_value){
 	msg = msg.replace("{optional_value}", optional_value);
 	
 	//Use valiform_error class to have it cleared by the clear_errors_valiform() function
-	$(field).after("<div class='valiform_error' style='color:red;'>"+msg+"</div>")
+	if(typeof($.fn.popover) != 'undefined'){
+		$(field).popover({content:msg,placement:'bottom'}).popover('show');
+		$(field).attr("onkeydown","hide_popover_valiform('"+$(field).attr("aria-describedby")+"',this);");		
+
+	}else{
+		$(field).after(" <span style='color:red;' class='valiform_error'><strong>"+msg+"</strong></span>")
+	}
 
 }
 
@@ -210,9 +238,17 @@ function clear_errors_valiform(){
 	$('.valiform_error').each(function(){
 		$(this).remove();
 	})
+	$('.popover').each(function(){
+		$(this).popover('dispose');
+	})
 	return true;
 }
 
+
+function hide_popover_valiform(popover_id,field){
+	$(field).removeAttr('onkeyup');
+	$('#'+popover_id).popover('dispose');
+}
 //Initialize all the messages. Change them if you want to localize it
 function init_valiform_messages(){
 	

@@ -13,19 +13,24 @@ log_valiform("Additional Valiform_messages.js found and loaded");
 $(document).ready(function(){
 	if(script_messages_tag.attr("lang")!==undefined){
 		main_language = script_messages_tag.attr("lang");
-		log_valiform("Tag Lang for messages.js found! Loading language '"+main_language+"'")
+		log_valiform("Tag Lang for messages.js found! Loading language '"+main_language+"'...")
 	}
+	
+	
+	//ITALIANO
+	if(main_language == "it"){
+		log_valiform("... lingua italiana CARICATA!")
+	
+		generic_error = "Campo non valido";
+		field_required = "Campo richiesto";
+		min_length = "Valore troppo corto! Lunghezza minima {optional_value} caratteri";
+		max_length = "Valore troppo lungo! Lunghezza massima {optional_value} caratteri";
+		email_not_valid = "Email non valida";
+		number_not_valid = "Il valore non è un numero";
+		integer_not_valid = "Il valore non è un numero intero";
+		
+	}
+	
+	
 })
 
-
-if(main_language == "it"){
-	
-	generic_error = "Campo non valido";
-	field_required = "Campo richiesto";
-	min_length = "Valore troppo corto! Lunghezza minima {optional_value} caratteri";
-	max_length = "Valore troppo lungo! Lunghezza massima {optional_value} caratteri";
-	email_not_valid = "Email non valida";
-	number_not_valid = "Il valore non è un numero";
-	integer_not_valid = "Il valore non è un numero intero";
-	
-}
