@@ -3,7 +3,8 @@ Validate any form automagically with native HTML5 tags and properties
 
 
 ## Code inclusion
-```<script
+```
+<script
     src="Valiform.js"
     charset="utf-8"
 	override_html5_validation="true"
@@ -11,6 +12,6 @@ Validate any form automagically with native HTML5 tags and properties
 </script>
 
 <!-- OPTIONAL VALIFORM LOCALIZED MESSAGES -->
-<script src="Valiform_messages.js" charset="utf-8"></script>
+<script src="Valiform_messages.js" charset="utf-8" lang="en"></script>
 
 ```
