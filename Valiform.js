@@ -24,7 +24,7 @@ if(typeof jQuery == "undefined" ){
 
 
 	//Get the script tag of Valiform.js to get his attributes
-	var script_tag = $("script[src~='Valiform.js']");
+	var script_tag = $("script[src*='Valiform.js']");
 	
 	//Check for debug tag in the script src
 	if(script_tag.attr("debug")!==undefined){
