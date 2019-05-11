@@ -6,6 +6,9 @@ REQUIRED
 //This will print in console all the debug messages
 var debug = false;
 
+//Skip the validation if there is no name attribute, default true
+var skip_no_name = true;
+
 //This will override the html5 browser validation. If false, this validation will be activated after the default browser validation
 var override_html5_validation = false;
 
@@ -44,6 +47,15 @@ document.addEventListener('DOMContentLoaded', function(){
 				override_html5_validation = false;
 			}
 			log_valiform("Found the attribute override_html5_validation and it will be used to set the variable!");
+		}
+		//Check for skip_no_name tag in the script src
+		if(script_tag.attr("skip_no_name")!==undefined){
+			if(script_tag.attr("skip_no_name")=="true"){
+				skip_no_name = true;
+			}else{
+				skip_no_name = false;
+			}
+			log_valiform("Found the attribute skip_no_name and it will be used to set the variable!");
 		}
 		
 		
@@ -108,6 +120,9 @@ function form_validation_valiform(form){
 	$(form).find(':input').each(function(){
 		field = $(this);
 		fieldval = field.val();
+		
+		if(field.attr("name")===undefined && skip_no_name) return true;
+		
 		log_valiform("Input "+field.attr("name")+" found");
 		
 		var required = false;
